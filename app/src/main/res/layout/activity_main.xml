@@ -1,18 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Activity.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/movie"
+                android:textColor="@color/teal_200"
+                android:layout_marginBottom="40dp"
+                android:textSize="50dp"/>
+
+
+            <Button
+                android:id="@+id/btnRegisterMovie"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text = "@string/reg_movie"
+                android:layout_margin="20dp"
+                android:onClick="registerMovie"/>
+
+            <Button
+                android:id="@+id/btnDisplayMovie"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="@string/dis_movie"
+                android:layout_margin="20dp"
+                android:onClick="displayMovie"/>
+
+            <Button
+                android:id="@+id/btnFavourite"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="@string/fav"
+                android:layout_margin="20dp"
+                android:onClick="favourite"/>
+
+            <Button
+                android:id="@+id/btnEditMovie"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="@string/edit_movie"
+                android:layout_margin="20dp"
+                android:onClick="editMovie"/>
+
+            <Button
+                android:id="@+id/btnSearch"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="@string/search"
+                android:layout_margin="20dp"
+                android:onClick="search"/>
+
+            <Button
+                android:id="@+id/btnRating"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="@string/rating"
+                android:layout_margin="20dp"
+                android:onClick="rating"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
