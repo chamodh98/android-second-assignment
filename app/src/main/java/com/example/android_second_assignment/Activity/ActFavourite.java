@@ -1,27 +1,21 @@
 package com.example.android_second_assignment.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android_second_assignment.DB.MovieData;
 import com.example.android_second_assignment.R;
@@ -39,9 +33,10 @@ import static com.example.android_second_assignment.DB.Constants.MOVIE_TITLE;
 import static com.example.android_second_assignment.DB.Constants.MOVIE_YEAR;
 import static com.example.android_second_assignment.DB.Constants.TABLE_NAME;
 
-public class ActDisplayMovie extends AppCompatActivity {
+public class ActFavourite extends AppCompatActivity {
 
-    private static String[] Details = {MOVIE_ID, MOVIE_TITLE, MOVIE_YEAR, MOVIE_DIRECTOR, MOVIE_ACTOR, MOVIE_RATE, MOVIE_REVIEW};
+
+    private static String[] Details = {MOVIE_ID, MOVIE_TITLE, MOVIE_YEAR, MOVIE_DIRECTOR, MOVIE_ACTOR, MOVIE_RATE, MOVIE_REVIEW, MOVIE_FAV};
     private MovieData data;
 
     List<Item> items;
@@ -50,11 +45,10 @@ public class ActDisplayMovie extends AppCompatActivity {
     ItemsListAdapter movieListAdapter;
     List<String> movieIds;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_display_movie);
+        setContentView(R.layout.act_favourite);
 
         data = new MovieData(this);
 
@@ -68,7 +62,7 @@ public class ActDisplayMovie extends AppCompatActivity {
             data.close();
         }
 
-        movieListAdapter = new ItemsListAdapter(this, items);
+        movieListAdapter = new ActFavourite.ItemsListAdapter(this, items);
         listView.setAdapter(movieListAdapter);
 
         movieIds = new ArrayList<String>();
@@ -76,7 +70,8 @@ public class ActDisplayMovie extends AppCompatActivity {
 
     private Cursor getData() {
         SQLiteDatabase db = data.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NAME, Details, null, null,null,null,MOVIE_TITLE + " ASC");
+//        Cursor cursor = db.query(TABLE_NAME, Details, null, null,null,null,MOVIE_TITLE + " ASC");
+        Cursor cursor = db.rawQuery( "select * from "+TABLE_NAME+" WHERE "+MOVIE_FAV+" = 'TRUE'", null );
         return  cursor;
     }
 
@@ -88,7 +83,7 @@ public class ActDisplayMovie extends AppCompatActivity {
             int movieId = cursor.getInt(0);
 
             String s = name;
-            boolean b = false;
+            boolean b = true;
             int mi = movieId;
             Item item = new Item( s, b, mi);
             items.add(item);
@@ -98,14 +93,14 @@ public class ActDisplayMovie extends AppCompatActivity {
 
     }
 
-    public void update(View view) {
+    public void saveData(View view) {
         // update favourite movies
 
         for (int i = 0 ; i < movieIds.size(); i++ ){
             String id = movieIds.get(i);
             SQLiteDatabase db = data.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put(MOVIE_FAV,"TRUE");
+            values.put(MOVIE_FAV,"FALSE");
 
             db.update(TABLE_NAME, values, MOVIE_ID+" = ?", new String[]{id});
         }
@@ -166,21 +161,19 @@ public class ActDisplayMovie extends AppCompatActivity {
 
             viewHolder.checkBox.setTag(position);
 
-
             viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     boolean newState = !list.get(position).isChecked();
                     list.get(position).checked = newState;
 
-                    //add favourite movie
                     String id = String.valueOf(list.get(position).movieId);
 
-                    if (newState == true){
+                    //remove movie from favourite list by unpicking
+                    if (newState == false){
                         //add favourite movie
                         movieIds.add(id);
                     }else{
-                        //remove movie from favourite list by unpicking
                         if (movieIds.size()>0){
                             for (int i = 0 ; i < movieIds.size(); i++ ){
                                 if (id == movieIds.get(i)){

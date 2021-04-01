@@ -35,7 +35,7 @@ public class MovieData extends SQLiteOpenHelper {
                 + MOVIE_ACTOR + " TEXT NOT NULL,"
                 + MOVIE_RATE + " TEXT NOT NULL,"
                 + MOVIE_REVIEW + " TEXT NOT NULL,"
-                + MOVIE_FAV + " TEXT  );");
+                + MOVIE_FAV + " TEXT  DEFAULT ('FALSE'));");
     }
 
     @Override

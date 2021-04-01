@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void favourite(View view) {
+        Intent intent = new Intent(this, ActFavourite.class);
+        startActivity(intent);
     }
 
     public void editMovie(View view) {
