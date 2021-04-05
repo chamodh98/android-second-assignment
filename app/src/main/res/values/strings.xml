@@ -14,5 +14,8 @@
     <string name="actor">Actors/Actresses</string>
     <string name="review">Review</string>
     <string name="addFav">Add to Favourites</string>
-
+    <string name="edit_movie_item">Edit Movie</string>
+    <string name="update">Update</string>
+    <string name="rb_fav">Favourite</string>
+    <string name="rb_nfav">Not Favourite</string>
 </resources>

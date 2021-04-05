@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_white"
+    tools:context=".Activity.ActEditMovie">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/edit_movie_item"
+                android:textColor="@color/teal_200"
+                android:layout_marginBottom="40dp"
+                android:textSize="30dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text="@string/title"
+                    android:layout_weight="1"/>
+
+                <EditText
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/title"
+                    android:inputType="text"
+                    android:layout_weight="4"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text="@string/year"
+                    android:layout_weight="1"/>
+
+                <EditText
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/year"
+                    android:inputType="number"
+                    android:layout_weight="4"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text="@string/director"
+                    android:layout_weight="1"/>
+
+                <EditText
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/director"
+                    android:inputType="text"
+                    android:layout_weight="4"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text="@string/actor"
+                    android:layout_weight="1"/>
+
+                <EditText
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/actor"
+                    android:inputType="text"
+                    android:layout_weight="4"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text="@string/review"
+                    android:layout_weight="1"/>
+
+                <EditText
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/review"
+                    android:inputType="text"
+                    android:layout_weight="4"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:id="@+id/txtFav"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text="@string/rb_fav"
+                    android:layout_weight="1"/>
+
+
+                <RadioGroup
+                    android:id="@+id/radioGrp"
+                    android:layout_below="@+id/txtFav"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioFav"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rb_fav"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:onClick="onRadioButtonClicked"/>
+
+                    <RadioButton
+                        android:id="@+id/radioNFav"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:onClick="onRadioButtonClicked"
+                        android:text="@string/rb_nfav" />
+
+                </RadioGroup>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:id="@+id/txtRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text="@string/rating"
+                    android:layout_weight="1"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtRate">
+
+                    <ImageView
+                        android:id="@+id/star1"
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/yellow_unselect_star"
+                        android:onClick="star1Click"/>
+                    <ImageView
+                        android:id="@+id/star2"
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/yellow_unselect_star"
+                        android:onClick="star2Click"/>
+                    <ImageView
+                        android:id="@+id/star3"
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/yellow_unselect_star"
+                        android:onClick="star3Click"/>
+                    <ImageView
+                        android:id="@+id/star4"
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/yellow_unselect_star"
+                        android:onClick="star4Click"/>
+                    <ImageView
+                        android:id="@+id/star5"
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/yellow_unselect_star"
+                        android:onClick="star5Click"/>
+                    <ImageView
+                        android:id="@+id/star6"
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/yellow_unselect_star"
+                        android:onClick="star6Click"/>
+                    <ImageView
+                        android:id="@+id/star7"
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/yellow_unselect_star"
+                        android:onClick="star7Click"/>
+                    <ImageView
+                        android:id="@+id/star8"
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/yellow_unselect_star"
+                        android:onClick="star8Click"/>
+                    <ImageView
+                        android:id="@+id/star9"
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/yellow_unselect_star"
+                        android:onClick="star9Click"/>
+                    <ImageView
+                        android:id="@+id/star10"
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/yellow_unselect_star"
+                        android:onClick="star10Click"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_margin="10dp">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="update"
+                    android:text="@string/update"/>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

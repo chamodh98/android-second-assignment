@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Androidsecondassignment">
-        <activity android:name=".Activity.ActFavourite"></activity>
+        <activity android:name=".Activity.ActSearch"></activity>
+        <activity android:name=".Activity.ActEditMovie" />
+        <activity android:name=".Activity.ActEditMovieList" />
+        <activity android:name=".Activity.ActFavourite" />
         <activity android:name=".Activity.ActDisplayMovie" />
         <activity android:name=".Activity.ActRegisterMovie" />
         <activity android:name=".Activity.MainActivity">
