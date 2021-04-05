@@ -156,7 +156,7 @@ public class ActFavourite extends AppCompatActivity {
 
             viewHolder.checkBox.setChecked(list.get(position).checked);
 
-            final String itemStr = list.get(position).ItemString;
+            final String itemStr = list.get(position).movieTitle;
             viewHolder.text.setText(itemStr);
 
             viewHolder.checkBox.setTag(position);
@@ -193,10 +193,10 @@ public class ActFavourite extends AppCompatActivity {
 
     public class Item {
         boolean checked;
-        String ItemString;
+        String movieTitle;
         int movieId;
         Item( String t, boolean b, int mi){
-            ItemString = t;
+            movieTitle = t;
             checked = b;
             movieId = mi;
         }

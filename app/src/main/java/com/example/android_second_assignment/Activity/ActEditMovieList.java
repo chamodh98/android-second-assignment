@@ -56,8 +56,6 @@ public class ActEditMovieList extends AppCompatActivity {
 
 
         listView = (ListView)findViewById(R.id.listview);
-
-
         movieIds = new ArrayList<String>();
     }
 
@@ -153,7 +151,7 @@ public class ActEditMovieList extends AppCompatActivity {
             }
 
 
-            final String itemStr = list.get(position).ItemString;
+            final String itemStr = list.get(position).movieTitle;
             viewHolder.text.setText(itemStr);
 
 
@@ -162,10 +160,10 @@ public class ActEditMovieList extends AppCompatActivity {
     }
 
     public class Item {
-        String ItemString;
+        String movieTitle;
         int movieId;
         Item( String t, int mi){
-            ItemString = t;
+            movieTitle = t;
             movieId = mi;
         }
 

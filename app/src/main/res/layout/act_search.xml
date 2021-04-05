@@ -7,6 +7,26 @@
     android:orientation="vertical"
     tools:context=".Activity.ActSearch">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+        <EditText
+            android:id="@+id/etSearchText"
+            android:hint="Enter name for search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/searchBtn"
+            android:text="@string/search"
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="searchMovie"/>
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/lytShowData"
         android:layout_width="match_parent"
@@ -14,6 +34,8 @@
         android:gravity="center"
         android:layout_margin="10dp"
         android:layout_weight="1">
+
+
         <ListView
             android:id="@+id/listview"
             android:layout_width="match_parent"
