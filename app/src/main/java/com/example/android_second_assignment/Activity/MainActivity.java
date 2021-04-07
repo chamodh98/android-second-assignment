@@ -53,5 +53,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void rating(View view) {
+        Intent intent = new Intent(this,ActSearchRate.class);
+        startActivity(intent);
     }
 }
