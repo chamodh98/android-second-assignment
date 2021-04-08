@@ -20,7 +20,7 @@
 
         <Button
             android:id="@+id/searchBtn"
-            android:text="@string/search"
+            android:text="@string/lookUp"
             android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

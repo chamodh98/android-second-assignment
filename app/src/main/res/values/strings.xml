@@ -19,4 +19,5 @@
     <string name="rb_fav">Favourite</string>
     <string name="rb_nfav">Not Favourite</string>
     <string name="searchImdb">Find movie in IMDB</string>
+    <string name="lookUp">Lookup</string>
 </resources>

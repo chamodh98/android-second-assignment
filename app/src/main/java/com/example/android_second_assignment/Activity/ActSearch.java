@@ -84,6 +84,14 @@ public class ActSearch extends AppCompatActivity {
             int mi = movieId;
             Item item = new Item( s, mi);
             items.add(item);
+
+            if (items.size()>0){
+                for (int i = 0; i<(items.size()-1); i++){
+                    if (movieId == items.get(i).movieId){
+                        items.remove(item);
+                    }
+                }
+            }
         }
         cursor.close();
 

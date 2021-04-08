@@ -51,7 +51,7 @@ public class ActImdbMovieResult extends AppCompatActivity {
     ListView listView;
     ItemsListAdapter movieListAdapter;
     String movieTitle = "";
-    LinearLayout lytImgView;
+    LinearLayout lytImgView,lytEmptyView;
     ImageView imgView;
     RelativeLayout lytShowData;
 
@@ -64,6 +64,7 @@ public class ActImdbMovieResult extends AppCompatActivity {
         lytImgView = (LinearLayout) findViewById(R.id.lytImgView);
         imgView = (ImageView)findViewById(R.id.imgView);
         lytShowData = (RelativeLayout)findViewById(R.id.lytShowData);
+        lytEmptyView = (LinearLayout) findViewById(R.id.lytEmptyView);
         Intent intent = getIntent();
         movieTitle = intent.getStringExtra("movieTitle");
         setData();
@@ -82,7 +83,7 @@ public class ActImdbMovieResult extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 lytShowData.setVisibility(View.GONE);
                 lytImgView.setVisibility(View.VISIBLE);
-
+                lytEmptyView.setVisibility(View.VISIBLE);
                 LoadImage loadImage = new LoadImage(imgView);
                 loadImage.execute(items.get(position).movieUrl);
             }
@@ -94,6 +95,15 @@ public class ActImdbMovieResult extends AppCompatActivity {
         String myUrl = "https://imdb-api.com/en/API/SearchTitle/k_492n8ej5/"+movieTitle;
         new DownloadTask().execute(myUrl);
         Log.i("URL :", myUrl);
+    }
+
+    private void getRate(){
+        for (int i = 0; i<items.size(); i++){
+            String id = items.get(i).movieId;
+            String myUrl = "https://imdb-api.com/en/API/UserRatings/k_492n8ej5/"+id;
+            new DownloadRateTask().execute(myUrl);
+            Log.i("Rate URL :", myUrl);
+        }
     }
 
     private class DownloadTask extends AsyncTask<String, Void, String>{
@@ -128,11 +138,66 @@ public class ActImdbMovieResult extends AppCompatActivity {
                     String title = movieResult.getString("title") + " "+movieResult.getString("description");
                     String id = movieResult.getString("id");
                     String movieUrl = movieResult.getString("image");
-                    Item item = new Item(title,id,movieUrl);
+                    Item item = new Item(title,id,movieUrl,"");
                     items.add(item);
                 }
 
 
+
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            return stringBuilderParseResults.toString();
+        }
+
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            movieListAdapter.notifyDataSetChanged();
+            getRate();
+            lytEmptyView.setVisibility(View.GONE);
+        }
+
+
+    }
+
+    private class DownloadRateTask extends AsyncTask<String, Void, String>{
+
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        protected String doInBackground(String... urls) {
+            StringBuilder stringBuilder = new StringBuilder("");
+            StringBuilder stringBuilderParseResults = new StringBuilder("");
+            try {
+                URL url = new URL(urls[0]);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line + "\n");
+                }
+                if (stringBuilder.length() == 0) {
+                    return null;
+                }
+                Log.i("StringBuffer Contains :", stringBuilder.toString());
+
+                JSONObject jsonObject = new JSONObject(stringBuilder.toString());
+                String rate = jsonObject.getString("totalRating");
+                String id = jsonObject.getString("imDbId");
+
+                for (int i = 0; i < items.size(); i++){
+                    if (id.equalsIgnoreCase(items.get(i).movieId)){
+                        if (!(rate.equals("null"))){
+                            items.get(i).setMovieRate(rate);
+                        }else {
+                            items.get(i).setMovieRate("");
+                        }
+
+                    }
+                }
 
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
@@ -171,6 +236,7 @@ public class ActImdbMovieResult extends AppCompatActivity {
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
             imgView.setImageBitmap(bitmap);
+            lytEmptyView.setVisibility(View.GONE);
         }
     }
 
@@ -210,9 +276,10 @@ public class ActImdbMovieResult extends AppCompatActivity {
             ViewHolder viewHolder = new ViewHolder();
             if (rowView == null) {
                 LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-                rowView = inflater.inflate(R.layout.list_row, null);
+                rowView = inflater.inflate(R.layout.list_rate, null);
 
                 viewHolder.text = (TextView) rowView.findViewById(R.id.rowTextView);
+                viewHolder.rate = (TextView) rowView.findViewById(R.id.rowRateView);
                 rowView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) rowView.getTag();
@@ -221,7 +288,7 @@ public class ActImdbMovieResult extends AppCompatActivity {
 
             final String itemStr = list.get(position).movieTitle;
             viewHolder.text.setText(itemStr);
-
+            viewHolder.rate.setText(list.get(position).movieRate);
 
             return rowView;
         }
@@ -231,16 +298,22 @@ public class ActImdbMovieResult extends AppCompatActivity {
         String movieTitle;
         String movieId;
         String movieUrl;
-        Item( String t, String mi, String mu){
+        String movieRate;
+        Item( String t, String mi, String mu, String mr){
             movieTitle = t;
             movieId = mi;
             movieUrl = mu;
+            movieRate = mr;
         }
 
+        public void setMovieRate(String movieRate) {
+            this.movieRate = movieRate;
+        }
     }
 
     static class ViewHolder {
         TextView text;
+        TextView rate;
     }
 
 
