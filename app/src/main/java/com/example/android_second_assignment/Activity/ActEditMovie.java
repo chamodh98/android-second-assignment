@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.example.android_second_assignment.DB.MovieData;
 import com.example.android_second_assignment.R;
@@ -32,7 +33,6 @@ import static com.example.android_second_assignment.DB.Constants.MOVIE_YEAR;
 import static com.example.android_second_assignment.DB.Constants.TABLE_NAME;
 
 public class ActEditMovie extends AppCompatActivity {
-    private static String[] Details = {MOVIE_ID, MOVIE_TITLE, MOVIE_YEAR, MOVIE_DIRECTOR, MOVIE_ACTOR, MOVIE_RATE, MOVIE_REVIEW, MOVIE_FAV};
     private MovieData data;
     int movieId = 0;
     int rate = 0;
@@ -83,6 +83,7 @@ public class ActEditMovie extends AppCompatActivity {
         setData();
     }
 
+    //get selected movie by movie id
     private Cursor getData() {
         SQLiteDatabase db = data.getReadableDatabase();
         Cursor cursor = db.rawQuery( "select * from "+TABLE_NAME+" WHERE "+MOVIE_ID+" = "+movieId, null );
@@ -90,7 +91,7 @@ public class ActEditMovie extends AppCompatActivity {
     }
 
     private void getMovies(Cursor cursor) {
-
+        //set data
         items = new ArrayList<Item>();
         while (cursor.moveToNext()) {
             String mt = cursor.getString(1);
@@ -99,14 +100,14 @@ public class ActEditMovie extends AppCompatActivity {
             String md = cursor.getString(3);
             String ma = cursor.getString(4);
             String mr = cursor.getString(6);
-            String mrate = cursor.getString(5);
+            String mRate = cursor.getString(5);
             String fav = cursor.getString(7);
             boolean b = false;
             if (fav!=null && fav.equals("TRUE")){
                 b = true;
             }
 
-            Item item = new Item(mi,b,mt,my,md,ma,mr,mrate);
+            Item item = new Item(mi,b,mt,my,md,ma,mr,mRate);
             items.add(item);
         }
         cursor.close();
@@ -115,12 +116,14 @@ public class ActEditMovie extends AppCompatActivity {
     }
 
     private void setData(){
+        //set data to ui
         if (items.size()>0){
             txtTitle.setText(items.get(0).title);
             txtActor.setText(items.get(0).actor);
             txtDirector.setText(items.get(0).director);
             txtReview.setText(items.get(0).review);
             txtYear.setText(items.get(0).year);
+            //set favourite movie status
             if (items.get(0).checked){
                 radioFav.setChecked(true);
                 isFav = true;
@@ -128,6 +131,7 @@ public class ActEditMovie extends AppCompatActivity {
                 radioNFav.setChecked(true);
             }
         }
+        //set rating view
         if (Integer.parseInt(items.get(0).rate) > 0){
             rate = Integer.parseInt(items.get(0).rate);
             if (rate>=1){
@@ -169,6 +173,7 @@ public class ActEditMovie extends AppCompatActivity {
             year = Integer.parseInt(txtYear.getText().toString());
         }
 
+        //validate user inputs
         if (txtTitle.getText().toString().length() <= 0){
             txtTitle.setError("Enter Movie Title.");
             txtTitle.requestFocus();
@@ -189,12 +194,15 @@ public class ActEditMovie extends AppCompatActivity {
             txtReview.requestFocus();
         }else {
             updateData();
-
+            Toast toast = Toast.makeText(getApplicationContext(), "Movie data updated.", Toast.LENGTH_SHORT);
+            toast.show();
+            //back to main UI
             finish();
         }
 
     }
 
+    //update selected movie details
     private void updateData(){
         String movieFav = "FALSE";
         if (isFav){
@@ -380,7 +388,7 @@ public class ActEditMovie extends AppCompatActivity {
         String review;
         String rate;
 
-        Item(int mi,boolean movieFav, String mt,String my,String md,String ma,String mr,String mrate){
+        Item(int mi,boolean movieFav, String mt,String my,String md,String ma,String mr,String mRate){
             checked = movieFav;
             movieId = mi;
             title = mt;
@@ -388,7 +396,7 @@ public class ActEditMovie extends AppCompatActivity {
             director = md;
             actor = ma;
             review = mr;
-            rate = mrate;
+            rate = mRate;
         }
 
     }

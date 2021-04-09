@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.android_second_assignment.DB.MovieData;
 import com.example.android_second_assignment.R;
@@ -24,7 +25,6 @@ import static com.example.android_second_assignment.DB.Constants.TABLE_NAME;
 public class ActRegisterMovie extends AppCompatActivity {
 
     private EditText txtTitle,txtYear,txtDirector,txtActor,txtRate,txtReview;
-    private static String[] Details = {MOVIE_ID, MOVIE_TITLE, MOVIE_YEAR, MOVIE_DIRECTOR, MOVIE_ACTOR, MOVIE_RATE, MOVIE_REVIEW};
     private MovieData data;
 
     @Override
@@ -53,6 +53,7 @@ public class ActRegisterMovie extends AppCompatActivity {
             rate = Integer.parseInt(txtRate.getText().toString());
         }
 
+        //validate user inputs
         Log.d("year" , String.valueOf(year));
         if (txtTitle.getText().toString().length() <= 0){
             txtTitle.setError("Enter Movie Title.");
@@ -80,12 +81,15 @@ public class ActRegisterMovie extends AppCompatActivity {
             txtReview.requestFocus();
         }else {
             addData();
-
+            Toast toast = Toast.makeText(getApplicationContext(), "Movie registered.", Toast.LENGTH_SHORT);
+            toast.show();
+            //back to main UI
             finish();
         }
     }
 
     public void addData(){
+        //add data to the movie_data table
         SQLiteDatabase db = data.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(MOVIE_TITLE, txtTitle.getText().toString());

@@ -56,18 +56,21 @@ public class ActSearch extends AppCompatActivity {
 
     }
 
+    //get all movies in the database which contain the typed string from title
     private Cursor getDataByTitle() {
         SQLiteDatabase db = data.getReadableDatabase();
         Cursor cursor = db.rawQuery( "select * from "+TABLE_NAME+" WHERE "+MOVIE_TITLE+" LIKE ?",new String[] { "%" + keyword + "%" });
         return  cursor;
     }
 
+    //get all movies in the database which contain the typed string from director
     private Cursor getDataByDirector() {
         SQLiteDatabase db = data.getReadableDatabase();
         Cursor cursor = db.rawQuery( "select * from "+TABLE_NAME+" WHERE "+MOVIE_DIRECTOR+" LIKE ?",new String[] { "%" + keyword + "%" });
         return  cursor;
     }
 
+    //get all movies in the database which contain the typed string from Actors
     private Cursor getDataByActors() {
         SQLiteDatabase db = data.getReadableDatabase();
         Cursor cursor = db.rawQuery( "select * from "+TABLE_NAME+" WHERE "+MOVIE_ACTOR+" LIKE ?",new String[] { "%" + keyword + "%" });
@@ -85,6 +88,7 @@ public class ActSearch extends AppCompatActivity {
             Item item = new Item( s, mi);
             items.add(item);
 
+            //remove duplicate items
             if (items.size()>0){
                 for (int i = 0; i<(items.size()-1); i++){
                     if (movieId == items.get(i).movieId){
@@ -112,6 +116,7 @@ public class ActSearch extends AppCompatActivity {
             data.close();
         }
 
+        //set list view
         movieListAdapter = new ActSearch.ItemsListAdapter(this, items);
         listView.setAdapter(movieListAdapter);
     }

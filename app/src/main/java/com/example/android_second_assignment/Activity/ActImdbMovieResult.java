@@ -55,6 +55,9 @@ public class ActImdbMovieResult extends AppCompatActivity {
     ImageView imgView;
     RelativeLayout lytShowData;
 
+    //imdb key
+    private final String key = "k_492n8ej5";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +73,18 @@ public class ActImdbMovieResult extends AppCompatActivity {
         setData();
     }
 
+    @Override
+    public void onBackPressed() {
+
+        //check if image view is visible
+        if (lytImgView.getVisibility() == View.VISIBLE){
+            lytImgView.setVisibility(View.GONE);
+            lytShowData.setVisibility(View.VISIBLE);
+        }else {
+            super.onBackPressed();
+        }
+    }
+
     private void setData(){
         items = new ArrayList<Item>();
         data = new MovieData(this);
@@ -82,7 +97,6 @@ public class ActImdbMovieResult extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 lytShowData.setVisibility(View.GONE);
-                lytImgView.setVisibility(View.VISIBLE);
                 lytEmptyView.setVisibility(View.VISIBLE);
                 LoadImage loadImage = new LoadImage(imgView);
                 loadImage.execute(items.get(position).movieUrl);
@@ -90,17 +104,19 @@ public class ActImdbMovieResult extends AppCompatActivity {
         });
     }
 
+    //get matching movies from imdb
     public void checkMovie() {
 
-        String myUrl = "https://imdb-api.com/en/API/SearchTitle/k_492n8ej5/"+movieTitle;
+        String myUrl = "https://imdb-api.com/en/API/SearchTitle/"+key+"/"+movieTitle;
         new DownloadTask().execute(myUrl);
         Log.i("URL :", myUrl);
     }
 
+    //get movie rate from imdb
     private void getRate(){
         for (int i = 0; i<items.size(); i++){
             String id = items.get(i).movieId;
-            String myUrl = "https://imdb-api.com/en/API/UserRatings/k_492n8ej5/"+id;
+            String myUrl = "https://imdb-api.com/en/API/UserRatings/"+key+"/"+id;
             new DownloadRateTask().execute(myUrl);
             Log.i("Rate URL :", myUrl);
         }
@@ -133,6 +149,7 @@ public class ActImdbMovieResult extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(stringBuilder.toString());
                 JSONArray movieResultArray = jsonObject.getJSONArray("results");
 
+                //set movie data from the jason array
                 for (int i = 0; i < movieResultArray.length(); i++){
                     JSONObject movieResult = movieResultArray.getJSONObject(i);
                     String title = movieResult.getString("title") + " "+movieResult.getString("description");
@@ -188,6 +205,7 @@ public class ActImdbMovieResult extends AppCompatActivity {
                 String rate = jsonObject.getString("totalRating");
                 String id = jsonObject.getString("imDbId");
 
+                //set movie data from the jason object
                 for (int i = 0; i < items.size(); i++){
                     if (id.equalsIgnoreCase(items.get(i).movieId)){
                         if (!(rate.equals("null"))){
@@ -215,6 +233,7 @@ public class ActImdbMovieResult extends AppCompatActivity {
 
     private class LoadImage extends AsyncTask<String,Void, Bitmap>{
         ImageView imageView;
+
         public LoadImage(ImageView imgView){
             this.imageView = imgView;
         }
@@ -237,6 +256,7 @@ public class ActImdbMovieResult extends AppCompatActivity {
             super.onPostExecute(bitmap);
             imgView.setImageBitmap(bitmap);
             lytEmptyView.setVisibility(View.GONE);
+            lytImgView.setVisibility(View.VISIBLE);
         }
     }
 

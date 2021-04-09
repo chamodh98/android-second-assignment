@@ -67,6 +67,7 @@ public class ActSearchRate extends AppCompatActivity {
 
     }
 
+    //get all the movies from database
     private Cursor getData() {
         SQLiteDatabase db = data.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME, Details, null, null,null,null,MOVIE_TITLE + " ASC");
@@ -75,6 +76,7 @@ public class ActSearchRate extends AppCompatActivity {
 
     private void getMovies(Cursor cursor) {
 
+        //set data
         items = new ArrayList<Item>();
         while (cursor.moveToNext()) {
             String name = cursor.getString(1);
@@ -125,9 +127,6 @@ public class ActSearchRate extends AppCompatActivity {
             return position;
         }
 
-        public boolean isChecked(int position) {
-            return list.get(position).isChecked();
-        }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
@@ -153,9 +152,11 @@ public class ActSearchRate extends AppCompatActivity {
 
             viewHolder.radioBtn.setTag(position);
 
+            //onclick radio button
             viewHolder.radioBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //get selected position from movie list
                     int id = items.get(position).movieId;
                     moviePosition = position;
                     if (items.size()>0){
@@ -186,9 +187,6 @@ public class ActSearchRate extends AppCompatActivity {
             movieId = mi;
         }
 
-        public boolean isChecked(){
-            return checked;
-        }
     }
 
     static class ViewHolder {

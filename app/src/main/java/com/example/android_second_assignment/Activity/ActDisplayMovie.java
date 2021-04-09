@@ -68,12 +68,14 @@ public class ActDisplayMovie extends AppCompatActivity {
             data.close();
         }
 
+        //set list view
         movieListAdapter = new ItemsListAdapter(this, items);
         listView.setAdapter(movieListAdapter);
 
         movieIds = new ArrayList<String>();
     }
 
+    //get movie data from database
     private Cursor getData() {
         SQLiteDatabase db = data.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME, Details, null, null,null,null,MOVIE_TITLE + " ASC");
@@ -82,6 +84,7 @@ public class ActDisplayMovie extends AppCompatActivity {
 
     private void getMovies(Cursor cursor) {
 
+        //set data
         items = new ArrayList<Item>();
         while (cursor.moveToNext()) {
             String name = cursor.getString(1);
@@ -109,6 +112,9 @@ public class ActDisplayMovie extends AppCompatActivity {
 
             db.update(TABLE_NAME, values, MOVIE_ID+" = ?", new String[]{id});
         }
+        Toast toast = Toast.makeText(getApplicationContext(), "Movies add as favourites.", Toast.LENGTH_SHORT);
+        toast.show();
+        //back to main UI
         finish();
     }
 

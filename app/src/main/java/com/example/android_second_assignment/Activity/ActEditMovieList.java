@@ -30,6 +30,7 @@ import java.util.List;
 
 import static com.example.android_second_assignment.DB.Constants.MOVIE_ACTOR;
 import static com.example.android_second_assignment.DB.Constants.MOVIE_DIRECTOR;
+import static com.example.android_second_assignment.DB.Constants.MOVIE_FAV;
 import static com.example.android_second_assignment.DB.Constants.MOVIE_ID;
 import static com.example.android_second_assignment.DB.Constants.MOVIE_RATE;
 import static com.example.android_second_assignment.DB.Constants.MOVIE_REVIEW;
@@ -39,10 +40,8 @@ import static com.example.android_second_assignment.DB.Constants.TABLE_NAME;
 
 public class ActEditMovieList extends AppCompatActivity {
 
-    private static String[] Details = {MOVIE_ID, MOVIE_TITLE, MOVIE_YEAR, MOVIE_DIRECTOR, MOVIE_ACTOR, MOVIE_RATE, MOVIE_REVIEW};
+    private static String[] Details = {MOVIE_ID, MOVIE_TITLE, MOVIE_YEAR, MOVIE_DIRECTOR, MOVIE_ACTOR, MOVIE_RATE, MOVIE_REVIEW, MOVIE_FAV};
     private MovieData data;
-
-
 
     List<Item> items;
     ListView listView;
@@ -84,6 +83,7 @@ public class ActEditMovieList extends AppCompatActivity {
         });
     }
 
+    //get all the movies from movie_data table
     private Cursor getData() {
         SQLiteDatabase db = data.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME, Details, null, null,null,null,MOVIE_TITLE + " ASC");
@@ -91,7 +91,7 @@ public class ActEditMovieList extends AppCompatActivity {
     }
 
     private void getMovies(Cursor cursor) {
-
+        //set movie data
         items = new ArrayList<Item>();
         while (cursor.moveToNext()) {
             String name = cursor.getString(1);

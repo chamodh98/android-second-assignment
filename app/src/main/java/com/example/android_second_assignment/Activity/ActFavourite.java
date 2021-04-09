@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android_second_assignment.DB.MovieData;
 import com.example.android_second_assignment.R;
@@ -36,7 +37,6 @@ import static com.example.android_second_assignment.DB.Constants.TABLE_NAME;
 public class ActFavourite extends AppCompatActivity {
 
 
-    private static String[] Details = {MOVIE_ID, MOVIE_TITLE, MOVIE_YEAR, MOVIE_DIRECTOR, MOVIE_ACTOR, MOVIE_RATE, MOVIE_REVIEW, MOVIE_FAV};
     private MovieData data;
 
     List<Item> items;
@@ -62,6 +62,7 @@ public class ActFavourite extends AppCompatActivity {
             data.close();
         }
 
+        //set list view
         movieListAdapter = new ActFavourite.ItemsListAdapter(this, items);
         listView.setAdapter(movieListAdapter);
 
@@ -69,14 +70,14 @@ public class ActFavourite extends AppCompatActivity {
     }
 
     private Cursor getData() {
+        //get only favourite movies
         SQLiteDatabase db = data.getReadableDatabase();
-//        Cursor cursor = db.query(TABLE_NAME, Details, null, null,null,null,MOVIE_TITLE + " ASC");
         Cursor cursor = db.rawQuery( "select * from "+TABLE_NAME+" WHERE "+MOVIE_FAV+" = 'TRUE'", null );
         return  cursor;
     }
 
     private void getMovies(Cursor cursor) {
-
+        //set data
         items = new ArrayList<Item>();
         while (cursor.moveToNext()) {
             String name = cursor.getString(1);
@@ -104,6 +105,9 @@ public class ActFavourite extends AppCompatActivity {
 
             db.update(TABLE_NAME, values, MOVIE_ID+" = ?", new String[]{id});
         }
+        Toast toast = Toast.makeText(getApplicationContext(), "Updated favourite movie list.", Toast.LENGTH_SHORT);
+        toast.show();
+        //back to main UI
         finish();
     }
 
